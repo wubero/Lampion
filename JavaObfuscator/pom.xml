@@ -6,7 +6,7 @@
 
     <groupId>com.github.ciselab</groupId>
     <artifactId>Lampion-JavaObfuscator</artifactId>
-    <version>1.1-SNAPSHOT</version>
+    <version>1.1</version>
     <description>Java Code Obfuscator used in the Lampion Project</description>
 
     <properties>
@@ -190,6 +190,14 @@
                                     </excludes>
                                 </filter>
                             </filters>
+                            <!-- This should (?) rename the  artifacts to be anonymous-->
+                            <!-- taken from https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.ciselab.lampion</pattern>
+                                    <shadedPattern>anonymous.lampion</shadedPattern>
+                                </relocation>
+                            </relocations>
                         </configuration>
                     </execution>
                 </executions>
