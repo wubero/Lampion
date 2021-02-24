@@ -10,8 +10,8 @@
     <description>Java Code Obfuscator used in the Lampion Project</description>
 
     <properties>
-        <maven.compiler.source>14</maven.compiler.source>
-        <maven.compiler.target>14</maven.compiler.target>
+        <maven.compiler.source>15</maven.compiler.source>
+        <maven.compiler.target>15</maven.compiler.target>
 
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -159,7 +159,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.1</version>
+                <version>3.2.4</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -167,11 +167,19 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <!-- This should (?) rename the  artifacts to be anonymous-->
+                            <!-- taken from https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html -->
+                            <relocations>
+                                <relocation>
+                                    <pattern>com.github.ciselab.lampion</pattern>
+                                    <shadedPattern>anonymous.lampion</shadedPattern>
+                                </relocation>
+                            </relocations>
                             <!-- This transformer is necessary, as otherwise the current Spoon version breaks on runtime missing a Logger -->
                             <!-- See: https://github.com/INRIA/spoon/pull/3678 -->
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.github.ciselab.lampion.program.App</mainClass>
+                                    <mainClass>anonymous.lampion.program.App</mainClass>
                                     <manifestEntries>
                                         <Multi-Release>true</Multi-Release>
                                     </manifestEntries>
@@ -190,14 +198,7 @@
                                     </excludes>
                                 </filter>
                             </filters>
-                            <!-- This should (?) rename the  artifacts to be anonymous-->
-                            <!-- taken from https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html -->
-                            <relocations>
-                                <relocation>
-                                    <pattern>com.github.ciselab.lampion</pattern>
-                                    <shadedPattern>anonymous.lampion</shadedPattern>
-                                </relocation>
-                            </relocations>
+
                         </configuration>
                     </execution>
                 </executions>
